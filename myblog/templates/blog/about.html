@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="post-content">
+        <br>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;让我产生搭建一个个人博客想法的最直接启发是阅读了“Python爱好者社区”微信公众号的</p>
+        <p>推送文章，作者<a target="_blank" href="https://www.zmrenwu.com/"><span class="post-link">&nbsp;追梦人物&nbsp;&nbsp;</span></a>在他的博文中详细耐心地介绍了Django的使用以及开发个人博客的流</p>
+        <p>程，关于本博客的数据库架构以及前端页面，我直接使用了“追梦人物”的模版，只是做了一些微</p>
+        <p>小的改动，博主强悍的技术水平，细致的教程讲解令我钦佩不已。</p>
+        <br>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时要感谢<a target="_blank" href="http://www.itxdl.cn/"><span class="post-link">&nbsp;兄弟连IT教育&nbsp;&nbsp;</span></a>伊川老师，对于Django伊川老师是我的启蒙老师，正是这段关于</p>
+        <p>Django的学习经历使我无论是在阅读“追梦人物”或者其他高人的博客还是Django的官方文档</p>
+        <p>都变得轻松起来。</p>
+        <br>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本站主要内容是对自己看到的互联网知识以及自己学习过程中的总结，有些内容很可能引用</p>
+        <p>了你的观点但没有注明出处，请未注明出处的朋友发邮件至我邮箱。</p>
+        <br>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系邮箱：lu_xst9527@foxmail.com</p>
+    </div>
+{% endblock %}
+
+{% block aside %}
+{% load blog_tags %}
+    <div class="widget widget-recent-posts">
+        <h3 class="widget-title">最新文章</h3>
+        {% get_recent_posts as recent_post_list %}
+        <ul>
+            {% for post in recent_post_list %}
+            <li>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </li>
+        {% empty %}
+            暂无文章!
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="widget widget-archives">
+        <h3 class="widget-title">归档</h3>
+        {% archives as date_list %}
+        <ul>
+            {% for date in date_list %}
+            <li>
+                <a href="{% url 'myweb:myweb_archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
+            </li>
+            {% empty %}
+                暂无归档！
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="widget widget-category">
+        <h3 class="widget-title">分类</h3>
+        {% get_categories as category_list %}
+        <ul>
+            {% for category in category_list %}
+            <li>
+                <a href="{% url 'myweb:myweb_category' category.pk %}">{{ category.name }} <span class="post-count">({{ category.num_posts }})</span></a>
+            </li>
+            {% empty %}
+                暂无分类！
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="widget widget-tag-cloud">
+        <h3 class="widget-title">标签云</h3>
+        {% get_tags as tag_list %}
+        <ul>
+            {% for tag in tag_list %}
+            <li>
+                <a href="{% url 'myweb:myweb_tag' tag.pk %}">{{ tag.name }}</a>
+            </li>
+            {% empty %}
+            暂无标签！
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
